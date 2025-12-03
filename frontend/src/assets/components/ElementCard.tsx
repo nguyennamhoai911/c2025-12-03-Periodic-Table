@@ -7,7 +7,7 @@ interface ElementCardProps {
   data: HappyElement;
   activeFilter: string | null;
   onHover: (key: string) => void;
-  onClick: (key: string) => void; // Prop xử lý click
+  onClick: (key: string) => void;
   isDemo?: boolean;
 }
 
@@ -20,7 +20,7 @@ const CardContainer = styled.div<{
   $borderColor: string;
   $isDimmed: boolean;
   $isDemo: boolean;
-  $isHighlight: boolean; // Prop bật hiệu ứng Glow
+  $isHighlight: boolean;
 }>`
   position: relative;
   width: ${CARD_SIZE};
@@ -37,7 +37,7 @@ const CardContainer = styled.div<{
   border: 3px solid ${(props) => props.$borderColor};
   box-sizing: border-box;
 
-  /* State: Dimmed (Mờ đi) */
+  /* State: Dimmed */
   ${(props) =>
     props.$isDimmed &&
     css`
@@ -46,7 +46,7 @@ const CardContainer = styled.div<{
       filter: grayscale(100%);
     `}
 
-  /* State: Normal (Hiển thị rõ) */
+  /* State: Normal */
   ${(props) =>
     !props.$isDimmed &&
     css`
@@ -54,16 +54,15 @@ const CardContainer = styled.div<{
       transform: scale(1);
     `}
 
-  /* State: Highlight (Active + Glow Effect) */
+  /* State: Highlight (Active + Glow) */
   ${(props) =>
     props.$isHighlight &&
     css`
-      /* Fix lỗi TS: Dùng trực tiếp props.$borderColor */
+      /* FIX LỖI: Dùng trực tiếp props.$borderColor, không lồng function nữa */
       box-shadow: 0 0 15px ${props.$borderColor};
-      z-index: 20; 
+      z-index: 20;
     `}
 
-  /* Hover Effect */
   &:hover {
     ${(props) =>
       !props.$isDemo &&
@@ -98,7 +97,6 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   pointer-events: none;
-
   img {
     width: ${ICON_SIZE};
     height: ${ICON_SIZE};
@@ -138,13 +136,16 @@ const ElementCard: React.FC<ElementCardProps> = ({
   isDemo = false,
 }) => {
   const isDefault = activeFilter === null;
+
+  // Logic check level (convert số sang string để so sánh)
   const isMatch =
     activeFilter === data.category ||
-    (data.type && data.type.includes(activeFilter || ""));
+    (data.type && data.type.includes(activeFilter || "")) ||
+    data.level.toString() === activeFilter;
 
-    const isDimmed = !isDemo && !(isDefault || isMatch);
+  const isDimmed = !isDemo && !(isDefault || isMatch);
   
-  // Logic Glow: Không phải demo, không phải default và đang match filter
+  // FIX LỖI TYPE: Ép kiểu Boolean rõ ràng
   const isHighlight = Boolean(!isDemo && !isDefault && isMatch);
 
   const iconName = data.icon.replace(".png", ".svg");
@@ -159,7 +160,7 @@ const ElementCard: React.FC<ElementCardProps> = ({
       onMouseEnter={() => !isDemo && onHover(data.category)}
       onClick={(e) => {
         if (!isDemo) {
-          e.stopPropagation(); // Chặn click lan ra background
+          e.stopPropagation();
           onClick(data.category);
         }
       }}

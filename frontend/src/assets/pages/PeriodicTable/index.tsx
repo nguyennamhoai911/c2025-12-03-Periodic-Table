@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import styled, { css } from "styled-components"; // Thêm css vào import
+import styled, { css } from "styled-components";
 import ElementCard from "../../components/ElementCard";
 import { CATEGORY_COLORS } from "../../../constants";
 import { elements, categories, types } from "../../../data";
 
-// ... (Các phần CONSTANTS và Styled Layout cũ GIỮ NGUYÊN) ...
+// --- CONSTANTS ---
 const CELL_SIZE = "90px";
 const GAP_SIZE = "6px";
 const SIDEBAR_WIDTH = "60px";
 
+// --- STYLED LAYOUT ---
 const PageWrapper = styled.div`
   height: 100vh;
   width: 100%;
@@ -20,7 +21,6 @@ const PageWrapper = styled.div`
   font-family: sans-serif;
   overflow: hidden;
 `;
-// ... (ScrollContainer, Header, MainContent, GridSystem... GIỮ NGUYÊN) ...
 const ScrollContainer = styled.div`
   flex: 1;
   width: 100%;
@@ -99,18 +99,57 @@ const ArrowHead = styled.div`
   border-right: 4px solid transparent;
   border-bottom: 8px solid black;
 `;
-const NumberBox = styled.div`
+
+// --- [NEW] Component: Nút tròn (Knob) ---
+const SliderKnob = styled.div`
+  width: 12px;
+  height: 12px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  /* Căn chỉnh để tâm nút tròn nằm đè lên đường kẻ */
+  right: -5px; 
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  box-shadow: 0 0 0 2px white; /* Viền trắng để tách khỏi đường kẻ cho đẹp */
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nảy */
+`;
+
+const NumberBox = styled.div<{ $isActive: boolean }>`
+  position: relative; /* Để làm gốc tọa độ cho SliderKnob */
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 12px;
+  padding-right: 15px; /* Tăng padding để số không dính nút tròn */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  ${(props) =>
+    props.$isActive &&
+    css`
+      /* Khi active thì số to lên */
+      span {
+        font-size: 20px; 
+        font-weight: 900;
+      }
+    `}
+
+  &:hover span {
+    transform: scale(1.2);
+  }
+
   span {
     background-color: white;
     padding: 0 4px;
     font-size: 14px;
     font-weight: 700;
+    transition: all 0.2s;
+    /* Nếu không active thì số màu xám, active màu đen */
+    color: ${(props) => (props.$isActive ? "black" : "#9ca3af")};
   }
 `;
+
 const TableColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -146,39 +185,30 @@ const TypesLegend = styled.div`
   color: #9ca3af;
   letter-spacing: 1px;
 `;
-
-// --- [UPDATE 1] LegendItem: Thêm text-shadow khi active ---
 const LegendItem = styled.div<{ $isActive: boolean }>`
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
   transition: all 200ms;
-
   opacity: ${(props) => (props.$isActive ? 1 : 0.6)};
   transform: ${(props) => (props.$isActive ? "scale(1.1)" : "none")};
   color: ${(props) => (props.$isActive ? "black" : "#9ca3af")};
-
   ${(props) =>
     props.$isActive &&
     css`
-      /* Thêm shadow nhẹ cho chữ khi active */
       text-shadow: 0 0 1px black;
     `}
-
   &:hover {
     opacity: 1;
     color: black;
     transform: scale(1.1);
   }
-
   span:first-child {
     font-size: 14px;
-    /* Kế thừa màu từ cha để active thì đen, không thì xám */
-    color: inherit; 
+    color: inherit;
   }
 `;
-
 const FilterItemWrapper = styled.div<{ $isActive: boolean }>`
   display: flex;
   align-items: center;
@@ -187,24 +217,17 @@ const FilterItemWrapper = styled.div<{ $isActive: boolean }>`
   transition: all 200ms;
   opacity: ${(props) => (props.$isActive ? 1 : 0.7)};
   transform: ${(props) => (props.$isActive ? "scale(1.05)" : "none")};
-
   &:hover {
     opacity: 1;
     transform: scale(1.05);
   }
 `;
-
-// --- [UPDATE 2] FilterColorBox: Nhận màu vào props để tạo Shadow ---
 const FilterColorBox = styled.div<{ $color: string; $isActive: boolean }>`
   width: 80px;
   height: 80px;
   background-color: white;
   flex-shrink: 0;
-  
-  /* Sử dụng màu truyền vào làm border */
   border: 3px solid ${(props) => props.$color};
-
-  /* Logic Glow cho ô Footer giống ô trên bảng */
   ${(props) =>
     props.$isActive &&
     css`
@@ -212,7 +235,6 @@ const FilterColorBox = styled.div<{ $color: string; $isActive: boolean }>`
       z-index: 10;
     `}
 `;
-
 const FilterLabel = styled.span`
   font-weight: 900;
   text-transform: uppercase;
@@ -253,10 +275,28 @@ const PeriodicTable: React.FC = () => {
               <SidebarGrid>
                 <ArrowLine><ArrowHead /></ArrowLine>
                 <SidebarLabel>Impact Level</SidebarLabel>
-                <NumberBox><span>5</span></NumberBox>
-                <NumberBox><span>4</span></NumberBox>
-                <NumberBox><span>3</span></NumberBox>
-                <NumberBox><span>2</span></NumberBox>
+
+                {/* --- [UPDATE] Render NumberBox có SliderKnob --- */}
+                {["5", "4", "3", "2"].map((level) => {
+                  const isActive = activeFilter === level;
+                  
+                  return (
+                    <NumberBox
+                      key={level}
+                      $isActive={isActive}
+                      onMouseEnter={() => handleMouseEnter(level)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLockFilter(level);
+                      }}
+                    >
+                      <span>{level}</span>
+                      {/* Nếu level này đang active thì hiện cục tròn đen */}
+                      {isActive && <SliderKnob />}
+                    </NumberBox>
+                  );
+                })}
+
               </SidebarGrid>
             </SidebarColumn>
 
@@ -300,9 +340,7 @@ const PeriodicTable: React.FC = () => {
             onMouseLeave={handleMouseLeave}
           >
             {categories.map((cat) => {
-              // Lấy màu tương ứng
               const color = CATEGORY_COLORS[cat.key] || CATEGORY_COLORS.default;
-              
               return (
                 <FilterItemWrapper
                   key={cat.key}
@@ -313,7 +351,6 @@ const PeriodicTable: React.FC = () => {
                     toggleLockFilter(cat.key);
                   }}
                 >
-                  {/* Truyền color và isActive vào FilterColorBox */}
                   <FilterColorBox
                     $color={color}
                     $isActive={activeFilter === cat.key}
