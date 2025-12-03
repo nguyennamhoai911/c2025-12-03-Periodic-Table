@@ -410,6 +410,6 @@ export const types: TypeDef[] = [
   { key: "P", label: "PHYSICAL HABIT" },
   { key: "M", label: "MENTAL HABIT" },
   { key: "F", label: "FOOD" },
-  { key: "H", label: "HYGIENE" },
-  { key: "N", label: "NATURE" },
+  // { key: "H", label: "HYGIENE" },
+  // { key: "N", label: "NATURE" },
 ];

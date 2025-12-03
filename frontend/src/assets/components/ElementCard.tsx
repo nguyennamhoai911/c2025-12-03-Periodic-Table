@@ -7,19 +7,18 @@ interface ElementCardProps {
   data: HappyElement;
   activeFilter: string | null;
   onHover: (key: string) => void;
-
-  onClick: (key: string) => void; 
+  onClick: (key: string) => void;
   isDemo?: boolean;
 }
 
-const CARD_SIZE = "90px"; 
+const CARD_SIZE = "90px";
 const ICON_SIZE = "40px";
 
-
-const CardContainer = styled.div<{ 
-  $borderColor: string; 
-  $isDimmed: boolean; 
-  $isDemo: boolean 
+const CardContainer = styled.div<{
+  $borderColor: string;
+  $isDimmed: boolean;
+  $isDemo: boolean;
+  $isHighlight: boolean;
 }>`
   position: relative;
   width: ${CARD_SIZE};
@@ -29,45 +28,61 @@ const CardContainer = styled.div<{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 4px; 
-  transition: all 200ms ease-in-out;
-  cursor: ${props => (props.$isDemo ? "default" : "pointer")};
-  
-  border: 3px solid ${props => props.$borderColor};
+  padding: 4px;
+  transition: all 300ms ease-in-out;
+  cursor: ${(props) => (props.$isDemo ? "default" : "pointer")};
+
+  border: 3px solid ${(props) => props.$borderColor};
   box-sizing: border-box;
 
-  ${props => props.$isDimmed && css`
-    opacity: 0.3; // Mờ đi khi không active
-    transform: scale(0.95);
-    filter: grayscale(100%);
-  `}
+  ${(props) =>
+    props.$isDimmed &&
+    css`
+      opacity: 0.3;
+      transform: scale(0.95);
+      filter: grayscale(100%);
+    `}
 
-  ${props => !props.$isDimmed && css`
-    opacity: 1;
-    transform: scale(1);
-  `}
+  ${(props) =>
+    !props.$isDimmed &&
+    css`
+      opacity: 1;
+      transform: scale(1);
+    `}
+
+  /* --- [FIX LỖI Ở ĐÂY] --- */
+  ${(props) =>
+    props.$isHighlight &&
+    css`
+      /* Dùng trực tiếp props.$borderColor, không cần function lồng nhau */
+      box-shadow: 0 0 15px ${props.$borderColor};
+      z-index: 20;
+    `}
 
   &:hover {
-    ${props => !props.$isDemo && css`
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
-      z-index: 50;
-      transform: scale(1.1);
-    `}
+    ${(props) =>
+      !props.$isDemo &&
+      css`
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+        z-index: 50;
+        transform: scale(1.1);
+      `}
   }
 `;
 
+// ... (Các component con như NameText, IconWrapper... giữ nguyên không đổi) ...
 const NameText = styled.div`
   font-weight: 700;
   text-transform: uppercase;
   width: 100%;
   text-align: left;
   z-index: 10;
-  white-space: normal;      
-  word-break: break-word;   
-  line-height: 1.1;       
-  font-size: 10px;          
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.1;
+  font-size: 10px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;    
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 `;
@@ -79,12 +94,11 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   pointer-events: none;
-
   img {
     width: ${ICON_SIZE};
     height: ${ICON_SIZE};
     object-fit: contain;
-    opacity: 0.8; 
+    opacity: 0.8;
   }
 `;
 
@@ -115,7 +129,7 @@ const ElementCard: React.FC<ElementCardProps> = ({
   data,
   activeFilter,
   onHover,
-  onClick, 
+  onClick,
   isDemo = false,
 }) => {
   const isDefault = activeFilter === null;
@@ -124,8 +138,11 @@ const ElementCard: React.FC<ElementCardProps> = ({
     (data.type && data.type.includes(activeFilter || ""));
 
   const isDimmed = !isDemo && !(isDefault || isMatch);
-  const iconName = data.icon.replace(".png", ".svg");
   
+  // Logic Glow:
+  const isHighlight = !isDemo && !isDefault && isMatch;
+
+  const iconName = data.icon.replace(".png", ".svg");
   const borderColor = CATEGORY_COLORS[data.category] || CATEGORY_COLORS.default;
 
   return (
@@ -133,11 +150,11 @@ const ElementCard: React.FC<ElementCardProps> = ({
       $borderColor={borderColor}
       $isDimmed={isDimmed}
       $isDemo={isDemo}
+      $isHighlight={isHighlight}
       onMouseEnter={() => !isDemo && onHover(data.category)}
-
       onClick={(e) => {
         if (!isDemo) {
-          e.stopPropagation(); 
+          e.stopPropagation();
           onClick(data.category);
         }
       }}
@@ -147,7 +164,9 @@ const ElementCard: React.FC<ElementCardProps> = ({
         <img
           src={`/icons/${iconName}`}
           alt={data.name}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = "none";
+          }}
         />
       </IconWrapper>
       <FooterInfo>
