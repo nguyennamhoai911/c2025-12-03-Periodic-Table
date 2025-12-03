@@ -18,7 +18,7 @@ export const elements: HappyElement[] = [
   {
     id: 2,
     name: "HUG SOMEONE",
-    type: "P/M",
+    type: "M", // Updated from P/M
     level: 5,
     category: "oxytocin",
     icon: "hug.svg",
@@ -54,7 +54,7 @@ export const elements: HappyElement[] = [
   {
     id: 5,
     name: "SUNBATHING",
-    type: "P/M",
+    type: "M", // Updated from P/M
     level: 5,
     category: "serotonin",
     icon: "sun.svg",
@@ -134,7 +134,7 @@ export const elements: HappyElement[] = [
     icon: "milk.svg",
     row: 2,
     colStart: 4,
-    recommendation: "1 cup (200–250ml)/day",
+    recommendation: "200–250ml/day", // Updated
     mainEffect: "Calming peptides support oxytocin",
   },
   {
@@ -146,7 +146,7 @@ export const elements: HappyElement[] = [
     icon: "egg.svg",
     row: 2,
     colStart: 5,
-    recommendation: "1–2 eggs/day",
+    recommendation: "50–100g/day", // Updated
     mainEffect: "Protein & vitamins support hormone regulation",
   },
   {
@@ -170,7 +170,7 @@ export const elements: HappyElement[] = [
     icon: "salmon.svg",
     row: 2,
     colStart: 7,
-    recommendation: "2–3 times/week (90–120g)",
+    recommendation: "90–120g per serving", // Updated
     mainEffect: "Omega-3 strengthens serotonin signaling",
   },
   {
@@ -182,19 +182,19 @@ export const elements: HappyElement[] = [
     icon: "seeds.svg",
     row: 2,
     colStart: 8,
-    recommendation: "1–2 tablespoons/day",
+    recommendation: "10–20g/day", // Updated
     mainEffect: "High in tryptophan → serotonin precursor",
   },
   {
     id: 16,
     name: "TAKE A COLD SHOWER",
-    type: "P",
+    type: "P/M", // Updated
     level: 4,
-    category: "serotonin",
+    category: "serotonin", // Note: Your input lists this, but keep checking if it belongs to Endorphins (original data) or Serotonin. Kept original category, updated stats.
     icon: "shower.svg",
     row: 2,
     colStart: 9,
-    recommendation: "30–60 seconds",
+    recommendation: "5 minutes", // Updated from 30-60s
     mainEffect: "Sudden cold exposure triggers strong endorphin release",
   },
   {
@@ -211,20 +211,20 @@ export const elements: HappyElement[] = [
   },
   {
     id: 18,
-    name: "PATATO",
+    name: "POTATO", // Fixed Typo
     type: "F",
     level: 4,
     category: "endorphins",
     icon: "potato.svg",
     row: 2,
     colStart: 11,
-    recommendation: "1 potato/day",
+    recommendation: "10–30g/day", // Updated
     mainEffect: "Carbohydrates stimulate endorphin release",
   },
   {
     id: 19,
     name: "STRETCHING",
-    type: "M",
+    type: "P", // Updated from M
     level: 4,
     category: "endorphins",
     icon: "stretch.svg",
@@ -262,28 +262,27 @@ export const elements: HappyElement[] = [
   {
     id: 22,
     name: "GREEN VEGETABLES",
-    type: "N",
+    type: "N", // Keep original type unless specified F
     level: 3,
     category: "dopamine",
     icon: "green-veg.svg",
     row: 3,
     colStart: 4,
-    recommendation: "1–2 cups/day",
+    recommendation: "150–300g/day", // Updated
     mainEffect: "Magnesium & folate → serotonin support",
   },
   {
     id: 23,
     name: "AVOCADO",
-    type: "F",
+    type: "F/M", // Updated based on input
     level: 3,
     category: "oxytocin",
     icon: "avocado.svg",
     row: 3,
     colStart: 5,
-    recommendation: "½ avocado/day",
+    recommendation: "70–100g/day", // Updated
     mainEffect: "Healthy fats → nourish nervous system and oxytocin",
   },
-  // Lưu ý: GREEN TEA xuất hiện 2 lần trong data gốc của bạn, mình giữ nguyên ID
   {
     id: 24,
     name: "GREEN TEA",
@@ -298,7 +297,7 @@ export const elements: HappyElement[] = [
   },
   {
     id: 25,
-    name: "VITAMINC",
+    name: "VITAMIN C", // Fixed Typo
     type: "F",
     level: 3,
     category: "oxytocin",
@@ -317,7 +316,7 @@ export const elements: HappyElement[] = [
     icon: "cauliflower.svg",
     row: 3,
     colStart: 8,
-    recommendation: "½–1 cup/day",
+    recommendation: "150g/day", // Updated
     mainEffect: "Folate supports serotonin regulation",
   },
   {
@@ -329,7 +328,7 @@ export const elements: HappyElement[] = [
     icon: "green-veg-2.svg",
     row: 3,
     colStart: 9,
-    recommendation: "1–2 cups/day",
+    recommendation: "150–300g/day", // Updated
     mainEffect: "Essential minerals for mood stability",
   },
   {
@@ -346,7 +345,7 @@ export const elements: HappyElement[] = [
   },
   {
     id: 29,
-    name: "ENTERTAINMENT",
+    name: "ENTERTAINMENT (FUN CONTENT)", // Updated Name
     type: "M",
     level: 3,
     category: "endorphins",
@@ -403,7 +402,7 @@ export const elements: HappyElement[] = [
     icon: "chiaseeds.svg",
     row: 4,
     colStart: 5,
-    recommendation: "1 tablespoon (10–12g)/day",
+    recommendation: "10–12g/day", // Updated
     mainEffect: "Omega-3 → supports oxytocin & brain health",
   },
   {
@@ -427,7 +426,7 @@ export const elements: HappyElement[] = [
     icon: "tofu.svg",
     row: 4,
     colStart: 7,
-    recommendation: "125-130 gram (g)",
+    recommendation: "100–120g/day", // Updated
     mainEffect: "Plant protein & tryptophan",
   },
   {
@@ -439,19 +438,19 @@ export const elements: HappyElement[] = [
     icon: "avocado.svg",
     row: 4,
     colStart: 8,
-    recommendation: "½ avocado/day",
+    recommendation: "70–100g/day", // Updated
     mainEffect: "Healthy fats help regulate serotonin",
   },
   {
     id: 37,
-    name: "PACKETS",
+    name: "PACKETS (SNACKS)", // Updated Name
     type: "F",
     level: 2,
     category: "endorphins",
     icon: "packets.svg",
     row: 4,
     colStart: 9,
-    recommendation: "Occasionally only",
+    recommendation: "150–200g", // Updated (Quantity seems high for snacks, but kept as requested)
     mainEffect: "Indulgence increases endorphins but should not be overused",
   },
 ];

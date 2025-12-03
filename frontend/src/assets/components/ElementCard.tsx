@@ -5,15 +5,15 @@ import styled, { css, keyframes } from "styled-components";
 import type { HappyElement } from "../../types";
 import { CATEGORY_COLORS } from "../../constants";
 
-// Interface Props: Chấp nhận activeFilter và event là string hoặc number
+// [UPDATED]: Thêm prop onLeave để handle reset khi chuột rời đi
 interface ElementCardProps {
   data: HappyElement;
   activeFilter: string | number | null; 
   onHover: (key: string | number) => void;
+  onLeave?: () => void; // <--- Mới thêm
   onClick: (key: string | number) => void;
   isDemo?: boolean;
 }
-
 const CARD_SIZE = "90px";
 const ICON_SIZE = "40px";
 
@@ -180,36 +180,34 @@ const TypeText = styled.span`
   font-size: 9px;
 `;
 
+
 // --- MAIN COMPONENT ---
 
 const ElementCard: React.FC<ElementCardProps> = ({
   data,
   activeFilter,
   onHover,
+  onLeave, // <--- Nhận prop onLeave
   onClick,
   isDemo = false,
 }) => {
   const isDefault = activeFilter === null;
 
-  // [LOGIC FIXED] --- Quan trọng nhất ---
-  // Tách biệt logic so sánh: Number so với Number, String so với String.
-  // Điều này ngăn chặn việc chọn Level "2" (string) làm sáng ID 2 (number).
+  // Logic Match: Phân biệt rõ number (ID) và string (Category/Level)
   const isMatch =
-    (typeof activeFilter === "number" && activeFilter === data.id) || // Chỉ active ID nếu filter là số
-    (typeof activeFilter === "string" && ( // Chỉ active nhóm nếu filter là chuỗi
+    (typeof activeFilter === "number" && activeFilter === data.id) || 
+    (typeof activeFilter === "string" && (
       activeFilter === data.category || 
       (data.type && data.type.includes(activeFilter)) || 
       data.level.toString() === activeFilter
     ));
 
   const isDimmed = !isDemo && !(isDefault || isMatch);
-  
-  // Chuyển thành Boolean để tránh warning của styled-components
   const isHighlight = Boolean(!isDemo && !isDefault && isMatch);
 
-  // [POPUP LOGIC]: Chỉ hiện Popup khi click vào đúng ID ô đó (chế độ lock)
+  // Popup Logic: Chỉ hiện khi Lock đúng ID
   const showPopup = !isDemo && 
-                    (activeFilter === data.id) && // activeFilter phải bằng đúng ID
+                    (activeFilter === data.id) && 
                     (data.recommendation || data.mainEffect);
 
   const iconName = data.icon.replace(".png", ".svg");
@@ -221,8 +219,9 @@ const ElementCard: React.FC<ElementCardProps> = ({
       $isDimmed={isDimmed}
       $isDemo={isDemo}
       $isHighlight={isHighlight}
-      // Pass ID (number) vào hàm handler
+      // Events
       onMouseEnter={() => !isDemo && onHover(data.id)}
+      onMouseLeave={() => !isDemo && onLeave && onLeave()} // <--- Gọi hàm reset khi chuột rời đi
       onClick={(e) => {
         if (!isDemo) {
           e.stopPropagation();
@@ -245,17 +244,17 @@ const ElementCard: React.FC<ElementCardProps> = ({
         <TypeText>{data.type}</TypeText>
       </FooterInfo>
 
-      {/* RENDER POPUP */}
+      {/* Render Popup Material UI Style */}
       {showPopup && (
         <InfoPopup>
           {data.recommendation && (
             <InfoTitle>
-              <strong>Recommendation :</strong> {data.recommendation}
+              <strong>Recommendation:</strong> {data.recommendation}
             </InfoTitle>
           )}
           {data.mainEffect && (
             <InfoTitle>
-              <strong>Main Effect :</strong> {data.mainEffect}
+              <strong>Main Effect:</strong> {data.mainEffect}
             </InfoTitle>
           )}
         </InfoPopup>

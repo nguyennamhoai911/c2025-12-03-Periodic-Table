@@ -1,3 +1,5 @@
+// src/assets/pages/PeriodicTable/index.tsx
+
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import ElementCard from "../../components/ElementCard";
@@ -49,7 +51,7 @@ const Header = styled.div`
   }
 `;
 const MainContent = styled.div`
-height: 400px;
+  height: 400px;
   display: flex;
   position: relative;
   min-width: fit-content;
@@ -80,7 +82,6 @@ const SidebarLabel = styled.div`
 
 const SidebarGrid = styled.div`
   display: grid;
-  /* [UPDATED]: Tăng lên 5 dòng để chứa số 1 */
   grid-template-rows: repeat(5, ${CELL_SIZE});
   gap: ${GAP_SIZE};
   position: relative;
@@ -245,17 +246,16 @@ const FilterLabel = styled.span`
 `;
 
 const PeriodicTable: React.FC = () => {
-  // [FIX 1]: Update State để chấp nhận cả string | number
+  // State Types: Chấp nhận string (Level/Cat) hoặc number (ID)
   const [hoveredFilter, setHoveredFilter] = useState<string | number | null>(null);
   const [lockedFilter, setLockedFilter] = useState<string | number | null>(null);
 
   const activeFilter = lockedFilter || hoveredFilter;
 
-  // [FIX 2]: Update tham số đầu vào là string | number
+  // Handlers
   const handleMouseEnter = (key: string | number) => setHoveredFilter(key);
-  const handleMouseLeave = () => setHoveredFilter(null);
+  const handleMouseLeave = () => setHoveredFilter(null); // Hàm reset quan trọng
 
-  // [FIX 3]: Update tham số toggle cũng là string | number
   const toggleLockFilter = (key: string | number) => {
     if (lockedFilter === key) {
       setLockedFilter(null);
@@ -281,15 +281,15 @@ const PeriodicTable: React.FC = () => {
                 <ArrowLine><ArrowHead /></ArrowLine>
                 <SidebarLabel>Impact Level</SidebarLabel>
 
-                {/* --- [UPDATED]: Thêm "1" vào mảng --- */}
                 {["5", "4", "3", "2", "1"].map((level) => {
                   const isActive = activeFilter === level;
-                  
                   return (
                     <NumberBox
                       key={level}
                       $isActive={isActive}
                       onMouseEnter={() => handleMouseEnter(level)}
+                      // [UPDATED]: Thêm sự kiện Leave cho Sidebar
+                      onMouseLeave={handleMouseLeave}
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleLockFilter(level);
@@ -300,7 +300,6 @@ const PeriodicTable: React.FC = () => {
                     </NumberBox>
                   );
                 })}
-
               </SidebarGrid>
             </SidebarColumn>
 
@@ -308,11 +307,12 @@ const PeriodicTable: React.FC = () => {
               <TableGrid>
                 {elements.map((el) => (
                   <CellWrapper key={el.id} $colStart={el.colStart}>
-                    {/* Giờ ElementCard nhận string|number nên sẽ không báo lỗi nữa */}
                     <ElementCard
                       data={el}
                       activeFilter={activeFilter}
                       onHover={handleMouseEnter}
+                      // [UPDATED]: Truyền hàm handleMouseLeave vào đây
+                      onLeave={handleMouseLeave}
                       onClick={toggleLockFilter}
                     />
                   </CellWrapper>
