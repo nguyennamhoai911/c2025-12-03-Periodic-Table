@@ -54,7 +54,7 @@ export const elements: HappyElement[] = [
   {
     id: 5,
     name: "SUNBATHING",
-    type: "H/M",
+    type: "P/M",
     level: 5,
     category: "serotonin",
     icon: "sun.svg",
@@ -188,7 +188,7 @@ export const elements: HappyElement[] = [
   {
     id: 16,
     name: "TAKE A COLD SHOWER",
-    type: "H",
+    type: "P",
     level: 4,
     category: "serotonin",
     icon: "shower.svg",
@@ -212,7 +212,7 @@ export const elements: HappyElement[] = [
   {
     id: 18,
     name: "PATATO",
-    type: "M",
+    type: "F",
     level: 4,
     category: "endorphins",
     icon: "potato.svg",
@@ -335,7 +335,7 @@ export const elements: HappyElement[] = [
   {
     id: 28,
     name: "TOMATO",
-    type: "N",
+    type: "F",
     level: 3,
     category: "serotonin",
     icon: "tomato.svg",
@@ -385,7 +385,7 @@ export const elements: HappyElement[] = [
   {
     id: 32,
     name: "TOMATO",
-    type: "N",
+    type: "F",
     level: 2,
     category: "dopamine",
     icon: "tomato.svg",
@@ -427,7 +427,7 @@ export const elements: HappyElement[] = [
     icon: "tofu.svg",
     row: 4,
     colStart: 7,
-    recommendation: "½ cup/day",
+    recommendation: "125-130 gram (g)",
     mainEffect: "Plant protein & tryptophan",
   },
   {

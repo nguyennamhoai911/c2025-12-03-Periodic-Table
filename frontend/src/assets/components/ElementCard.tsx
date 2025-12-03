@@ -135,7 +135,7 @@ const NameText = styled.div`
   white-space: normal;
   word-break: break-word;
   line-height: 1.1;
-  font-size: 10px;
+  font-size: 9px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
