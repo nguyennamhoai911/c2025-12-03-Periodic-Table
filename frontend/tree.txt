@@ -1,0 +1,31 @@
+frontend
+├── README.md
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── public
+│   └── vite.svg
+├── src
+│   ├── App.css
+│   ├── App.tsx
+│   ├── Count.tsx
+│   ├── assets
+│   │   ├── components
+│   │   │   └── ElementCard.tsx
+│   │   ├── pages
+│   │   │   └── PeriodicTable
+│   │   │       └── index.tsx
+│   │   └── react.svg
+│   ├── data.ts
+│   ├── index.css
+│   ├── main.tsx
+│   ├── reset.css
+│   └── types.ts
+├── tailwind.config.js
+├── tree.txt
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
