@@ -12,17 +12,20 @@ export const elements: HappyElement[] = [
     icon: "goal.svg",
     row: 1,
     colStart: 1,
+    recommendation: "Break big goals into small steps.",
+    mainEffect: "Increases focus and satisfaction.",
   },
-  // Gap 2, 3
   {
     id: 2,
     name: "HUG SOMEONE",
-    type: "H/M",
+    type: "P/M",
     level: 5,
     category: "oxytocin",
     icon: "hug.svg",
     row: 1,
     colStart: 4,
+    recommendation: "Hug for 20+ seconds",
+    mainEffect: "Rapid oxytocin boost → reduces anxiety",
   },
   {
     id: 3,
@@ -33,6 +36,8 @@ export const elements: HappyElement[] = [
     icon: "friends.svg",
     row: 1,
     colStart: 5,
+    recommendation: "1–2 gatherings per week",
+    mainEffect: "Enhances social bonding and stress relief",
   },
   {
     id: 4,
@@ -43,6 +48,8 @@ export const elements: HappyElement[] = [
     icon: "meditate.svg",
     row: 1,
     colStart: 6,
+    recommendation: "10–20 minutes/day",
+    mainEffect: "Increases inner safety and emotional balance",
   },
   {
     id: 5,
@@ -53,6 +60,8 @@ export const elements: HappyElement[] = [
     icon: "sun.svg",
     row: 1,
     colStart: 7,
+    recommendation: "10–20 minutes/day",
+    mainEffect: "Sunlight boosts oxytocin (and serotonin)",
   },
   {
     id: 6,
@@ -63,8 +72,9 @@ export const elements: HappyElement[] = [
     icon: "exercise.svg",
     row: 1,
     colStart: 8,
+    recommendation: "30 minutes, 3–5 times/week",
+    mainEffect: "Strong and sustained serotonin activation",
   },
-  // Gap 9, 10, 11
   {
     id: 7,
     name: "SPICY FOODS",
@@ -74,6 +84,8 @@ export const elements: HappyElement[] = [
     icon: "spicy.svg",
     row: 1,
     colStart: 12,
+    recommendation: "Occasionally, 1–2 times/week",
+    mainEffect: "Capsaicin triggers endorphin release",
   },
 
   // --- ROW 2 (Level 4) ---
@@ -86,6 +98,8 @@ export const elements: HappyElement[] = [
     icon: "sleep.svg",
     row: 2,
     colStart: 1,
+    recommendation: "7-8 hours/night",
+    mainEffect: "Restores dopamine receptors",
   },
   {
     id: 9,
@@ -96,6 +110,8 @@ export const elements: HappyElement[] = [
     icon: "banana.svg",
     row: 2,
     colStart: 2,
+    recommendation: "1-2 bananas/day",
+    mainEffect: "Rich in tyrosine (dopamine precursor)",
   },
   {
     id: 10,
@@ -106,6 +122,8 @@ export const elements: HappyElement[] = [
     icon: "music.svg",
     row: 2,
     colStart: 3,
+    recommendation: "30 mins of favorite tunes",
+    mainEffect: "Releases oxytocin and reduces cortisol",
   },
   {
     id: 11,
@@ -116,6 +134,8 @@ export const elements: HappyElement[] = [
     icon: "milk.svg",
     row: 2,
     colStart: 4,
+    recommendation: "1 cup (200–250ml)/day",
+    mainEffect: "Calming peptides support oxytocin",
   },
   {
     id: 12,
@@ -126,6 +146,8 @@ export const elements: HappyElement[] = [
     icon: "egg.svg",
     row: 2,
     colStart: 5,
+    recommendation: "1–2 eggs/day",
+    mainEffect: "Protein & vitamins support hormone regulation",
   },
   {
     id: 13,
@@ -136,6 +158,8 @@ export const elements: HappyElement[] = [
     icon: "greentea.svg",
     row: 2,
     colStart: 6,
+    recommendation: "1–2 cups/day",
+    mainEffect: "L-theanine has a calming effect on the brain",
   },
   {
     id: 14,
@@ -146,6 +170,8 @@ export const elements: HappyElement[] = [
     icon: "salmon.svg",
     row: 2,
     colStart: 7,
+    recommendation: "2–3 times/week (90–120g)",
+    mainEffect: "Omega-3 strengthens serotonin signaling",
   },
   {
     id: 15,
@@ -156,6 +182,8 @@ export const elements: HappyElement[] = [
     icon: "seeds.svg",
     row: 2,
     colStart: 8,
+    recommendation: "1–2 tablespoons/day",
+    mainEffect: "High in tryptophan → serotonin precursor",
   },
   {
     id: 16,
@@ -166,6 +194,8 @@ export const elements: HappyElement[] = [
     icon: "shower.svg",
     row: 2,
     colStart: 9,
+    recommendation: "30–60 seconds",
+    mainEffect: "Sudden cold exposure triggers strong endorphin release",
   },
   {
     id: 17,
@@ -176,6 +206,8 @@ export const elements: HappyElement[] = [
     icon: "choco.svg",
     row: 2,
     colStart: 10,
+    recommendation: "10–20g/day",
+    mainEffect: "Theobromine stimulates endorphins & relaxation",
   },
   {
     id: 18,
@@ -186,6 +218,8 @@ export const elements: HappyElement[] = [
     icon: "potato.svg",
     row: 2,
     colStart: 11,
+    recommendation: "1 potato/day",
+    mainEffect: "Carbohydrates stimulate endorphin release",
   },
   {
     id: 19,
@@ -196,6 +230,8 @@ export const elements: HappyElement[] = [
     icon: "stretch.svg",
     row: 2,
     colStart: 12,
+    recommendation: "5–10 minutes/day",
+    mainEffect: "Relieves muscle tension → reduces pain → endorphins",
   },
 
   // --- ROW 3 (Level 3) ---
@@ -208,6 +244,8 @@ export const elements: HappyElement[] = [
     icon: "apple.svg",
     row: 3,
     colStart: 2,
+    recommendation: "1 apple/day",
+    mainEffect: "Provides quercetin, protecting dopamine neurons",
   },
   {
     id: 21,
@@ -218,6 +256,8 @@ export const elements: HappyElement[] = [
     icon: "strawberry.svg",
     row: 3,
     colStart: 3,
+    recommendation: "1 cup/day",
+    mainEffect: "Rich in Vitamin C and antioxidants",
   },
   {
     id: 22,
@@ -228,6 +268,8 @@ export const elements: HappyElement[] = [
     icon: "green-veg.svg",
     row: 3,
     colStart: 4,
+    recommendation: "1–2 cups/day",
+    mainEffect: "Magnesium & folate → serotonin support",
   },
   {
     id: 23,
@@ -238,7 +280,10 @@ export const elements: HappyElement[] = [
     icon: "avocado.svg",
     row: 3,
     colStart: 5,
+    recommendation: "½ avocado/day",
+    mainEffect: "Healthy fats → nourish nervous system and oxytocin",
   },
+  // Lưu ý: GREEN TEA xuất hiện 2 lần trong data gốc của bạn, mình giữ nguyên ID
   {
     id: 24,
     name: "GREEN TEA",
@@ -248,6 +293,8 @@ export const elements: HappyElement[] = [
     icon: "greentea.svg",
     row: 3,
     colStart: 6,
+    recommendation: "1–2 cups/day",
+    mainEffect: "L-theanine promotes relaxation",
   },
   {
     id: 25,
@@ -258,6 +305,8 @@ export const elements: HappyElement[] = [
     icon: "vitaminc.svg",
     row: 3,
     colStart: 7,
+    recommendation: "1–2 fruits/day",
+    mainEffect: "Enhances tryptophan absorption",
   },
   {
     id: 26,
@@ -268,6 +317,8 @@ export const elements: HappyElement[] = [
     icon: "cauliflower.svg",
     row: 3,
     colStart: 8,
+    recommendation: "½–1 cup/day",
+    mainEffect: "Folate supports serotonin regulation",
   },
   {
     id: 27,
@@ -278,6 +329,8 @@ export const elements: HappyElement[] = [
     icon: "green-veg-2.svg",
     row: 3,
     colStart: 9,
+    recommendation: "1–2 cups/day",
+    mainEffect: "Essential minerals for mood stability",
   },
   {
     id: 28,
@@ -288,6 +341,8 @@ export const elements: HappyElement[] = [
     icon: "tomato.svg",
     row: 3,
     colStart: 10,
+    recommendation: "1–2 tomatoes/day",
+    mainEffect: "Lycopene protects the nervous system",
   },
   {
     id: 29,
@@ -298,6 +353,8 @@ export const elements: HappyElement[] = [
     icon: "entertainment.svg",
     row: 3,
     colStart: 11,
+    recommendation: "2–4 times/week",
+    mainEffect: "Laughter boosts endorphins",
   },
   {
     id: 30,
@@ -308,6 +365,8 @@ export const elements: HappyElement[] = [
     icon: "cream.svg",
     row: 3,
     colStart: 12,
+    recommendation: "In small portions, 1–2 times/week",
+    mainEffect: "Treat-reward effect → endorphins, stress relief",
   },
 
   // --- ROW 4 (Level 2) ---
@@ -320,6 +379,8 @@ export const elements: HappyElement[] = [
     icon: "beans.svg",
     row: 4,
     colStart: 3,
+    recommendation: "1/2 cup per serving",
+    mainEffect: "Stabilizes blood sugar and mood",
   },
   {
     id: 32,
@@ -330,6 +391,8 @@ export const elements: HappyElement[] = [
     icon: "tomato.svg",
     row: 4,
     colStart: 4,
+    recommendation: "1–2 tomatoes/day",
+    mainEffect: "Antioxidants support brain health",
   },
   {
     id: 33,
@@ -340,6 +403,8 @@ export const elements: HappyElement[] = [
     icon: "chiaseeds.svg",
     row: 4,
     colStart: 5,
+    recommendation: "1 tablespoon (10–12g)/day",
+    mainEffect: "Omega-3 → supports oxytocin & brain health",
   },
   {
     id: 34,
@@ -350,6 +415,8 @@ export const elements: HappyElement[] = [
     icon: "tomato.svg",
     row: 4,
     colStart: 6,
+    recommendation: "Daily intake",
+    mainEffect: "Supports overall hormonal balance",
   },
   {
     id: 35,
@@ -360,6 +427,8 @@ export const elements: HappyElement[] = [
     icon: "tofu.svg",
     row: 4,
     colStart: 7,
+    recommendation: "½ cup/day",
+    mainEffect: "Plant protein & tryptophan",
   },
   {
     id: 36,
@@ -370,6 +439,8 @@ export const elements: HappyElement[] = [
     icon: "avocado.svg",
     row: 4,
     colStart: 8,
+    recommendation: "½ avocado/day",
+    mainEffect: "Healthy fats help regulate serotonin",
   },
   {
     id: 37,
@@ -380,36 +451,20 @@ export const elements: HappyElement[] = [
     icon: "packets.svg",
     row: 4,
     colStart: 9,
+    recommendation: "Occasionally only",
+    mainEffect: "Indulgence increases endorphins but should not be overused",
   },
 ];
 
 export const categories: CategoryDef[] = [
-  {
-    key: "dopamine",
-    label: "DOPAMINE",
-    colorClass: "border-yellow-400 text-yellow-600",
-  },
-  {
-    key: "oxytocin",
-    label: "OXYTOCIN",
-    colorClass: "border-red-400 text-red-600",
-  },
-  {
-    key: "serotonin",
-    label: "SEROTONIN",
-    colorClass: "border-green-400 text-green-600",
-  },
-  {
-    key: "endorphins",
-    label: "ENDORPHINS",
-    colorClass: "border-purple-400 text-purple-600",
-  },
+  { key: "dopamine", label: "DOPAMINE", colorClass: "border-yellow-400 text-yellow-600" },
+  { key: "oxytocin", label: "OXYTOCIN", colorClass: "border-red-400 text-red-600" },
+  { key: "serotonin", label: "SEROTONIN", colorClass: "border-green-400 text-green-600" },
+  { key: "endorphins", label: "ENDORPHINS", colorClass: "border-purple-400 text-purple-600" },
 ];
 
 export const types: TypeDef[] = [
   { key: "P", label: "PHYSICAL HABIT" },
   { key: "M", label: "MENTAL HABIT" },
   { key: "F", label: "FOOD" },
-  // { key: "H", label: "HYGIENE" },
-  // { key: "N", label: "NATURE" },
 ];

@@ -34,4 +34,6 @@ export interface HappyElement {
   // Layout positioning
   colStart?: number; // Cột bắt đầu (1-12)
   row?: number;      // Hàng (để sort cho dễ)
+  recommendation?: string;
+  mainEffect?: string;
 }

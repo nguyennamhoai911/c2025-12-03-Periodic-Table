@@ -6,6 +6,43 @@ frontend
 ├── package.json
 ├── postcss.config.js
 ├── public
+│   ├── icons
+│   │   ├── apple.svg
+│   │   ├── avocado.svg
+│   │   ├── banana.svg
+│   │   ├── beans.svg
+│   │   ├── cauliflower.svg
+│   │   ├── chiaseeds.svg
+│   │   ├── choco.svg
+│   │   ├── cream.svg
+│   │   ├── egg.svg
+│   │   ├── entertainment.svg
+│   │   ├── exercise.svg
+│   │   ├── friends.svg
+│   │   ├── goal.svg
+│   │   ├── green-veg-2.svg
+│   │   ├── green-veg.svg
+│   │   ├── greentea.svg
+│   │   ├── hug.svg
+│   │   ├── meditate.svg
+│   │   ├── milk.svg
+│   │   ├── music.svg
+│   │   ├── packets.svg
+│   │   ├── potato.svg
+│   │   ├── salmon.svg
+│   │   ├── seeds.svg
+│   │   ├── shower.svg
+│   │   ├── sleep.svg
+│   │   ├── spicy.svg
+│   │   ├── strawberry.svg
+│   │   ├── stretch.svg
+│   │   ├── sun.svg
+│   │   ├── tofu.svg
+│   │   ├── tomato-1.svg
+│   │   ├── tomato.svg
+│   │   └── vitaminc.svg
+│   ├── illustration
+│   │   └── instruction.svg
 │   └── vite.svg
 ├── src
 │   ├── App.css
@@ -18,6 +55,7 @@ frontend
 │   │   │   └── PeriodicTable
 │   │   │       └── index.tsx
 │   │   └── react.svg
+│   ├── constants.ts
 │   ├── data.ts
 │   ├── index.css
 │   ├── main.tsx

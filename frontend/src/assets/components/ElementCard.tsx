@@ -1,20 +1,72 @@
+// src/assets/components/ElementCard.tsx
+
 import React from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import type { HappyElement } from "../../types";
 import { CATEGORY_COLORS } from "../../constants";
 
+// Interface Props: Chấp nhận activeFilter và event là string hoặc number
 interface ElementCardProps {
   data: HappyElement;
-  activeFilter: string | null;
-  onHover: (key: string) => void;
-  onClick: (key: string) => void;
+  activeFilter: string | number | null; 
+  onHover: (key: string | number) => void;
+  onClick: (key: string | number) => void;
   isDemo?: boolean;
 }
 
 const CARD_SIZE = "90px";
 const ICON_SIZE = "40px";
 
+// Animation cho Popup hiện ra mượt mà
+const popIn = keyframes`
+  from { opacity: 0; transform: translate(10px, -50%) scale(0.9); }
+  to { opacity: 1; transform: translate(0, -50%) scale(1); }
+`;
+
 // --- STYLED COMPONENTS ---
+
+// Popup hiển thị Recommendation & Main Effect
+const InfoPopup = styled.div`
+  position: absolute;
+  left: 105%; /* Hiện bên phải ô */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 220px;
+  background-color: white;
+  border: 1px solid #bfbfbf;
+  border-radius: 12px;
+  padding: 12px;
+  z-index: 100;
+  box-shadow: 4px 4px 0px rgba(255, 255, 255, 0.2);
+  text-align: left;
+  animation: ${popIn} 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  pointer-events: none; /* Tránh chuột tương tác làm mất hover cha */
+
+  /* Mũi tên tam giác trỏ vào ô */
+  /* &::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #ffffff;
+  } */
+`;
+
+const InfoTitle = styled.div`
+  font-size: 11px;
+  margin-bottom: 4px;
+  line-height: 1.4;
+  color: #333;
+  
+  strong {
+    font-weight: 800;
+    color: black;
+    display: block; 
+  }
+`;
 
 const CardContainer = styled.div<{
   $borderColor: string;
@@ -37,7 +89,7 @@ const CardContainer = styled.div<{
   border: 3px solid ${(props) => props.$borderColor};
   box-sizing: border-box;
 
-  /* State: Dimmed */
+  /* State: Dimmed (Mờ đi khi không được chọn) */
   ${(props) =>
     props.$isDimmed &&
     css`
@@ -58,17 +110,17 @@ const CardContainer = styled.div<{
   ${(props) =>
     props.$isHighlight &&
     css`
-      /* FIX LỖI: Dùng trực tiếp props.$borderColor, không lồng function nữa */
       box-shadow: 0 0 15px ${props.$borderColor};
-      z-index: 20;
+      z-index: 50; /* Đè lên các ô khác */
     `}
 
+  /* Hover Effect */
   &:hover {
     ${(props) =>
       !props.$isDemo &&
       css`
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
-        z-index: 50;
+        z-index: 60;
         transform: scale(1.1);
       `}
   }
@@ -128,6 +180,8 @@ const TypeText = styled.span`
   font-size: 9px;
 `;
 
+// --- MAIN COMPONENT ---
+
 const ElementCard: React.FC<ElementCardProps> = ({
   data,
   activeFilter,
@@ -137,16 +191,26 @@ const ElementCard: React.FC<ElementCardProps> = ({
 }) => {
   const isDefault = activeFilter === null;
 
-  // Logic check level (convert số sang string để so sánh)
+  // [LOGIC FIXED] --- Quan trọng nhất ---
+  // Tách biệt logic so sánh: Number so với Number, String so với String.
+  // Điều này ngăn chặn việc chọn Level "2" (string) làm sáng ID 2 (number).
   const isMatch =
-    activeFilter === data.category ||
-    (data.type && data.type.includes(activeFilter || "")) ||
-    data.level.toString() === activeFilter;
+    (typeof activeFilter === "number" && activeFilter === data.id) || // Chỉ active ID nếu filter là số
+    (typeof activeFilter === "string" && ( // Chỉ active nhóm nếu filter là chuỗi
+      activeFilter === data.category || 
+      (data.type && data.type.includes(activeFilter)) || 
+      data.level.toString() === activeFilter
+    ));
 
   const isDimmed = !isDemo && !(isDefault || isMatch);
   
-  // FIX LỖI TYPE: Ép kiểu Boolean rõ ràng
+  // Chuyển thành Boolean để tránh warning của styled-components
   const isHighlight = Boolean(!isDemo && !isDefault && isMatch);
+
+  // [POPUP LOGIC]: Chỉ hiện Popup khi click vào đúng ID ô đó (chế độ lock)
+  const showPopup = !isDemo && 
+                    (activeFilter === data.id) && // activeFilter phải bằng đúng ID
+                    (data.recommendation || data.mainEffect);
 
   const iconName = data.icon.replace(".png", ".svg");
   const borderColor = CATEGORY_COLORS[data.category] || CATEGORY_COLORS.default;
@@ -157,11 +221,12 @@ const ElementCard: React.FC<ElementCardProps> = ({
       $isDimmed={isDimmed}
       $isDemo={isDemo}
       $isHighlight={isHighlight}
-      onMouseEnter={() => !isDemo && onHover(data.category)}
+      // Pass ID (number) vào hàm handler
+      onMouseEnter={() => !isDemo && onHover(data.id)}
       onClick={(e) => {
         if (!isDemo) {
           e.stopPropagation();
-          onClick(data.category);
+          onClick(data.id);
         }
       }}
     >
@@ -179,6 +244,23 @@ const ElementCard: React.FC<ElementCardProps> = ({
         <LevelText>{data.level}</LevelText>
         <TypeText>{data.type}</TypeText>
       </FooterInfo>
+
+      {/* RENDER POPUP */}
+      {showPopup && (
+        <InfoPopup>
+          {data.recommendation && (
+            <InfoTitle>
+              <strong>Recommendation :</strong> {data.recommendation}
+            </InfoTitle>
+          )}
+          {data.mainEffect && (
+            <InfoTitle>
+              <strong>Main Effect :</strong> {data.mainEffect}
+            </InfoTitle>
+          )}
+        </InfoPopup>
+      )}
+
     </CardContainer>
   );
 };

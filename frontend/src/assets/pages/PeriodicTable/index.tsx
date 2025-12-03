@@ -49,11 +49,13 @@ const Header = styled.div`
   }
 `;
 const MainContent = styled.div`
+height: 400px;
   display: flex;
   position: relative;
   min-width: fit-content;
-  padding-top: 20px;
+  padding-top: 0px;
   padding-bottom: 20px;
+  background-color: #ffffff;
 `;
 const GridSystem = styled.div`
   display: grid;
@@ -75,16 +77,19 @@ const SidebarLabel = styled.div`
   text-transform: uppercase;
   white-space: nowrap;
 `;
+
 const SidebarGrid = styled.div`
   display: grid;
-  grid-template-rows: repeat(4, ${CELL_SIZE});
+  /* [UPDATED]: Tăng lên 5 dòng để chứa số 1 */
+  grid-template-rows: repeat(5, ${CELL_SIZE});
   gap: ${GAP_SIZE};
   position: relative;
 `;
+
 const ArrowLine = styled.div`
   position: absolute;
   top: -30px;
-  bottom: -20px;
+  bottom: 44px;
   right: 0;
   width: 2px;
   background-color: black;
@@ -107,28 +112,26 @@ const SliderKnob = styled.div`
   background-color: black;
   border-radius: 50%;
   position: absolute;
-  /* Căn chỉnh để tâm nút tròn nằm đè lên đường kẻ */
   right: -5px; 
   top: 50%;
   transform: translateY(-50%);
   z-index: 20;
-  box-shadow: 0 0 0 2px white; /* Viền trắng để tách khỏi đường kẻ cho đẹp */
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nảy */
+  box-shadow: 0 0 0 2px white;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 `;
 
 const NumberBox = styled.div<{ $isActive: boolean }>`
-  position: relative; /* Để làm gốc tọa độ cho SliderKnob */
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 15px; /* Tăng padding để số không dính nút tròn */
+  padding-right: 15px;
   cursor: pointer;
   transition: transform 0.2s ease;
 
   ${(props) =>
     props.$isActive &&
     css`
-      /* Khi active thì số to lên */
       span {
         font-size: 20px; 
         font-weight: 900;
@@ -145,7 +148,6 @@ const NumberBox = styled.div<{ $isActive: boolean }>`
     font-size: 14px;
     font-weight: 700;
     transition: all 0.2s;
-    /* Nếu không active thì số màu xám, active màu đen */
     color: ${(props) => (props.$isActive ? "black" : "#9ca3af")};
   }
 `;
@@ -243,15 +245,18 @@ const FilterLabel = styled.span`
 `;
 
 const PeriodicTable: React.FC = () => {
-  const [hoveredFilter, setHoveredFilter] = useState<string | null>(null);
-  const [lockedFilter, setLockedFilter] = useState<string | null>(null);
+  // [FIX 1]: Update State để chấp nhận cả string | number
+  const [hoveredFilter, setHoveredFilter] = useState<string | number | null>(null);
+  const [lockedFilter, setLockedFilter] = useState<string | number | null>(null);
 
   const activeFilter = lockedFilter || hoveredFilter;
 
-  const handleMouseEnter = (key: string) => setHoveredFilter(key);
+  // [FIX 2]: Update tham số đầu vào là string | number
+  const handleMouseEnter = (key: string | number) => setHoveredFilter(key);
   const handleMouseLeave = () => setHoveredFilter(null);
 
-  const toggleLockFilter = (key: string) => {
+  // [FIX 3]: Update tham số toggle cũng là string | number
+  const toggleLockFilter = (key: string | number) => {
     if (lockedFilter === key) {
       setLockedFilter(null);
     } else {
@@ -276,8 +281,8 @@ const PeriodicTable: React.FC = () => {
                 <ArrowLine><ArrowHead /></ArrowLine>
                 <SidebarLabel>Impact Level</SidebarLabel>
 
-                {/* --- [UPDATE] Render NumberBox có SliderKnob --- */}
-                {["5", "4", "3", "2"].map((level) => {
+                {/* --- [UPDATED]: Thêm "1" vào mảng --- */}
+                {["5", "4", "3", "2", "1"].map((level) => {
                   const isActive = activeFilter === level;
                   
                   return (
@@ -291,7 +296,6 @@ const PeriodicTable: React.FC = () => {
                       }}
                     >
                       <span>{level}</span>
-                      {/* Nếu level này đang active thì hiện cục tròn đen */}
                       {isActive && <SliderKnob />}
                     </NumberBox>
                   );
@@ -304,6 +308,7 @@ const PeriodicTable: React.FC = () => {
               <TableGrid>
                 {elements.map((el) => (
                   <CellWrapper key={el.id} $colStart={el.colStart}>
+                    {/* Giờ ElementCard nhận string|number nên sẽ không báo lỗi nữa */}
                     <ElementCard
                       data={el}
                       activeFilter={activeFilter}
